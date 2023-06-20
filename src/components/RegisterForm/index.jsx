@@ -3,9 +3,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { registerFormSchema } from "./registerFormSchema";
 import { Input } from "../Input";
 import { Select } from "../Select";
-import { api } from "../../services/api";
-import { useNavigate } from "react-router-dom";
 import { isEmpty } from "../../utils/isEmpty";
+import { UserContext } from "../../providers/UserContext";
+import { useContext } from "react";
 
 /*
 {
@@ -25,23 +25,7 @@ export const RegisterForm = () => {
       resolver: zodResolver(registerFormSchema),
    });
 
-   const navigate = useNavigate();
-
-   const userRegister = async (formData) => {
-      try {
-         const body = {
-            name: formData.name,
-            email: formData.email,
-            password: formData.password,
-            job: formData.job,
-         };
-         await api.post("/users", body);
-         console.log("Cadastro efetuado com sucesso!");
-         navigate("/success");
-      } catch (error) {
-         console.log(error);
-      }
-   };
+   const { userRegister } = useContext(UserContext);
 
    const submit = (formData) => {
       userRegister(formData);

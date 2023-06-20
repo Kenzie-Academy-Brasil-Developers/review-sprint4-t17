@@ -1,11 +1,14 @@
-import { RoutesMain } from "./routes/RoutesMain"
+import { UserProvider } from "./providers/UserContext";
+import { RoutesMain } from "./routes/RoutesMain";
 
 function App() {
-  return (
-    <div className="App">
-      <RoutesMain />
-    </div>
-  )
+   return (
+      <div className="App">
+         <UserProvider>
+            <RoutesMain />  
+         </UserProvider>
+      </div>
+   );
 }
 
-export default App
+export default App;
