@@ -7,8 +7,8 @@ export const DashboardPage = () => {
     return(
         <main>
             <button onClick={() => userLogout()}>Sair</button>
-            <h1>{user.name} - {user.job}</h1>
-            <p>{user.email}</p>
+            <h1>{user?.name} - {user?.job}</h1>
+            <p>{user?.email}</p>
         </main>
     )
 }

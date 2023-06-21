@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../services/api";
@@ -12,6 +12,36 @@ export const UserContext = createContext({});
 //O provider ele é um componente
 export const UserProvider = ({ children }) => {
    const [user, setUser] = useState(null);
+   const [loading, setLoading] = useState(false);
+
+   //Na inicialização - OBRIGATORIAMENTE
+   const currentPath = window.location.pathname;
+
+   useEffect(() => {
+      const token = localStorage.getItem("@TOKEN");
+      const id = localStorage.getItem("@USERID");
+
+      const loadUser = async () => {
+         try {
+            setLoading(true);
+            const {data} = await api.get(`/users/${id}`, {
+               headers: {
+                  Authorization: `Bearer ${token}`
+               }
+            })
+            setUser(data);
+            navigate(currentPath);
+         } catch (error) {
+            console.log(error);  
+         } finally {
+            setLoading(false);
+         }
+      }
+
+      if(token && id){
+         loadUser();
+      }
+   }, [])
 
    const navigate = useNavigate();
 
@@ -55,7 +85,7 @@ export const UserProvider = ({ children }) => {
    };
 
    return (
-      <UserContext.Provider value={{ user, userRegister, userLogin, userLogout }}>
+      <UserContext.Provider value={{ user, userRegister, userLogin, userLogout, loading }}>
          {children}
       </UserContext.Provider>
    );

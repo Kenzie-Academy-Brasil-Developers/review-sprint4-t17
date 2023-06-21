@@ -1,4 +1,6 @@
 import { Routes, Route } from "react-router-dom";
+import { ProtectedRoutes } from "./ProtectedRoutes";
+import { PublicRoutes } from "./PublicRoutes";
 import { DashboardPage } from "../pages/DashboardPage";
 import { HomePage } from "../pages/HomePage";
 import { RegisterPage } from "../pages/RegisterPage";
@@ -9,10 +11,16 @@ export const RoutesMain = () => {
 
    return (
       <Routes>
-         <Route path="/" element={<HomePage />} />
-         <Route path="/register" element={<RegisterPage />} />
          <Route path="/success" element={<SuccessPage />} />
-         <Route path="/dashboard" element={<DashboardPage />} />
+         
+         <Route element={<PublicRoutes />}>
+            <Route index element={<HomePage />} />
+            <Route path="/register" element={<RegisterPage />} />
+         </Route>
+
+         <Route element={<ProtectedRoutes />}>
+            <Route path="/dashboard" element={<DashboardPage />} />
+         </Route>
       </Routes>
    );
 };
