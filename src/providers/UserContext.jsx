@@ -32,7 +32,9 @@ export const UserProvider = ({ children }) => {
             setUser(data);
             navigate(currentPath);
          } catch (error) {
-            console.log(error);  
+            console.log(error);
+            localStorage.removeItem("@TOKEN");
+            localStorage.removeItem("@USERID");  
          } finally {
             setLoading(false);
          }
